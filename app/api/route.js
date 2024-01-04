@@ -10,7 +10,7 @@ export async function GET(request) {
         // })
         // await client.sql`DELETE FROM users`
         // client.sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`
-        await client.sql`DROP TABLE users CASCADE`
+        // await client.sql`DROP TABLE users CASCADE`
     }catch(err){
         console.log(err)
     }
