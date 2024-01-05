@@ -30,7 +30,7 @@ export default function Home() {
   async function uploadImage() {
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('album', 'rflp3gi');
+    // formData.append('album', 'rflp3gi');
     try {
       const res = await fetch("https://api.imgur.com/3/image", {
         method: 'POST',
