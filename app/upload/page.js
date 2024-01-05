@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import CloudinaryVideo from '@/components/cloudinaryVideo';
 const FontAwesomeIcon = dynamic(() =>
   import('@fortawesome/react-fontawesome').then((mod) => mod.FontAwesomeIcon),
   { ssr: true }
@@ -14,6 +15,8 @@ export default function Home() {
   let [isImage, setIsImage] = useState(false);
   let [selectData, setSelectData] = useState(data[0]);
   let [file, setFile] = useState(null);
+  let [isUpload, setIsUpload] = useState(false);
+  let [publicId, setPublicId] = useState('');
   function ChangeImage(e) {
     if (e.target.files[0].type.includes("image")) {
       setFile(e.target.files[0]);
@@ -28,25 +31,24 @@ export default function Home() {
     }
   }
   async function uploadImage() {
-
+    // 'use server'
     try {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID 9c72d61850f2a4c");
-
-      var formdata = new FormData();
-      formdata.append("image", file);
-      // formdata.append("album", "rfYaW2S");
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-      };
-      let response = await fetch("https://api.imgur.com/3/image", requestOptions);
-      if (response.ok) {
-        let data = await response.json();
-        console.log(data);
-      }
+      // use Cloudinary API to upload image
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "my-upload");
+      let cloudinaryurl = file.type.includes("image") ? "image" : "video";
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/djncj31nj/${cloudinaryurl}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      setPublicId(data.public_id);
+      setIsUpload(true);
     } catch (error) {
       console.log(error);
     }
@@ -61,8 +63,11 @@ export default function Home() {
       <div className=" flex h-screen w-full justify-center items-center">
         <div className=" w-full max-w-[30rem] p-3 mx-auto">
           <div className=" flex w-full flex-col gap-3 items-center">
-            <div className="w-full h-40 rounded-md overflow-hidden relative">
-              {!isImage ? <Image src={image} layout="fill" objectFit="cover" alt='image' /> : <video className="w-full h-full object-cover" src={image} muted controls autoPlay></video>}
+            <div className="w-full h-52 rounded-md overflow-hidden relative">
+              {isUpload ? <CloudinaryVideo publicId={String(publicId)} /> : null}
+              {/* เมื่อupload แล้วจะมีวิดีโอขึเสร็จแล้วให้ปิดตัวแสดงผลนี้ */}
+              {!isUpload && ( !isImage ? <Image src={image} layout="fill" objectFit="cover" /> : <video src={image} className="w-full h-full object-cover" controls autoPlay loop />)}
+
             </div>
             <select onChange={(e) => { setSelectData(e.target.value) }} className=" w-full border-2 border-gray-300 p-2 rounded-md">
               {data.map((item, index) => (
