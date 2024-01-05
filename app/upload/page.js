@@ -35,7 +35,7 @@ export default function Home() {
 
       var formdata = new FormData();
       formdata.append("image", file);
-      // formdata.append("album", "rfYaW2S");
+      formdata.append("album", "rfYaW2S");
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
