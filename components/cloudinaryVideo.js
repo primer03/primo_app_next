@@ -1,4 +1,4 @@
-import { Video, CloudinaryContext } from "cloudinary-react";
+import { Video, CloudinaryContext, Transformation } from "cloudinary-react";
 import { useState } from "react";
 
 export default function CloudinaryVideo({ publicId }) {
@@ -9,18 +9,25 @@ export default function CloudinaryVideo({ publicId }) {
     }
 
     return (
-        <div>
-            <CloudinaryContext cloudName="djncj31nj">
-                <Video
-                    publicId={publicId}
-                    className={`w-full h-full object-cover ${!isVideoLoaded ? 'hidden' : ''}`} // Hide video until loaded
-                    // controls
-                    crop="scale"
-                    autoPlay
-                    loop
-                    onLoadedData={handleVideoLoaded} // This will now be called when the video data is loaded
-                />
-            </CloudinaryContext>
+        <div className="w-full">
+            <div className="flex w-full justify-center">
+                <div className="w-36">
+                    <CloudinaryContext cloudName="djncj31nj">
+                        <Video
+                            publicId={publicId}
+                            className={`w-full h-full object-cover ${!isVideoLoaded ? 'hidden' : ''}`}
+                            crop="fill" // Changed from 'pad' to 'fill'
+                            autoPlay
+                            loop
+                            muted
+                            onLoadedData={handleVideoLoaded}
+                        >
+                            <Transformation quality="auto" fetchFormat="auto" />
+                        </Video>
+                        {!isVideoLoaded && <div>Loading...</div>} {/* Placeholder or loading indicator */}
+                    </CloudinaryContext>
+                </div>
+            </div>
         </div>
     );
 }

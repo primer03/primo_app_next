@@ -17,17 +17,48 @@ export default function Home() {
   let [file, setFile] = useState(null);
   let [isUpload, setIsUpload] = useState(false);
   let [publicId, setPublicId] = useState('');
+  let [widthHeight, setWidthHeight] = useState({ width: 0, height: 0 });
+  let [Blockwidth, setBlockwidth] = useState('w-48');
+  let [imagObj, setImagObj] = useState('contain');
   function ChangeImage(e) {
-    if (e.target.files[0].type.includes("image")) {
-      setFile(e.target.files[0]);
-      let url = URL.createObjectURL(e.target.files[0]);
-      setImage(url);
-      setIsImage(false);
-    } else {
-      setFile(e.target.files[0]);
-      let url = URL.createObjectURL(e.target.files[0]);
-      setImage(url);
-      setIsImage(true);
+    if (e.target.files[0] != undefined) {
+      const file = e.target.files[0];
+      if (file.type.includes("image")) {
+        setFile(file);
+        let url = URL.createObjectURL(file);
+        let img = new window.Image();
+        img.onload = function () {
+          if (this.width > this.height) {
+            setBlockwidth('w-full');
+            setImagObj('cover');
+          } else {
+            setBlockwidth('w-48');
+            setImagObj('contain');
+          }
+        }
+        img.src = url;
+        setImage(url);
+        setIsImage(false);
+        console.log(file);
+      } else {
+        setFile(file);
+        let url = URL.createObjectURL(file);
+        let video = document.createElement('video');
+        video.onloadedmetadata = function () {
+          console.log('Metadata loaded');
+          console.log(this.videoWidth, this.videoHeight)
+          if (this.videoWidth > this.videoHeight) {
+            setBlockwidth('w-full');
+            setImagObj('cover');
+          } else {
+            setBlockwidth('w-48');
+            setImagObj('contain');
+          }
+        };
+        video.src = url;
+        setImage(url);
+        setIsImage(true);
+      }
     }
   }
   async function uploadImage() {
@@ -47,6 +78,7 @@ export default function Home() {
       );
       const data = await res.json();
       console.log(data);
+      setWidthHeight([data.width, data.height]);
       setPublicId(data.public_id);
       setIsUpload(true);
     } catch (error) {
@@ -63,13 +95,10 @@ export default function Home() {
       <div className=" flex h-screen w-full justify-center items-center">
         <div className=" w-full max-w-[30rem] p-3 mx-auto">
           <div className=" flex w-full flex-col gap-3 items-center">
-            <div className="w-full h-52 rounded-md overflow-hidden relative">
-              {isUpload ? <CloudinaryVideo publicId={String(publicId)} /> : null}
-              {/* เมื่อupload แล้วจะมีวิดีโอขึเสร็จแล้วให้ปิดตัวแสดงผลนี้ */}
-              {!isUpload && ( !isImage ? <Image src={image} layout="fill" objectFit="cover" /> : <video src={image} className="w-full h-full object-cover" controls autoPlay loop />)}
-
+            <div className={`${Blockwidth} h-56 rounded-md overflow-hidden relative`}>
+              {!isImage ? <Image src={image} layout="fill" alt='image' objectFit={imagObj} /> : <video src={image} className={`w-full h-full object-${imagObj}`} controls autoPlay loop />}
             </div>
-            <select onChange={(e) => { setSelectData(e.target.value) }} className=" w-full border-2 border-gray-300 p-2 rounded-md">
+            <select onChange={(e) => { setSelectData(e.target.value) }} className=" w-full border-2 border-violet-600 active:border-violet-500 focus:border-violet-500 p-2 rounded-md">
               {data.map((item, index) => (
                 <option key={index} value={item}>{item}</option>
               ))}
