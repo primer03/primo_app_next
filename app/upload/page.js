@@ -12,34 +12,57 @@ export default function Home() {
   const [data, setData] = useState(Array.from({ length: 27 }, (_, i) => `รุ่น ${i + 1}`));
   let [image, setImage] = useState("https://i.imgur.com/UTAtyis.jpg");
   let [isImage, setIsImage] = useState(false);
+  let [selectData, setSelectData] = useState(data[0]);
+  let [file, setFile] = useState(null);
   function ChangeImage(e) {
-    //check ว่าเป็นรูปหรือวิดีโอ
     if (e.target.files[0].type.includes("image")) {
+      setFile(e.target.files[0]);
       let url = URL.createObjectURL(e.target.files[0]);
       setImage(url);
       setIsImage(false);
     } else {
-      //เอาไฟล์มาแปลงเป็น url
+      setFile(e.target.files[0]);
       let url = URL.createObjectURL(e.target.files[0]);
       setImage(url);
       setIsImage(true);
     }
   }
-  useEffect(() => {
-    console.log(data);
+  async function uploadImage() {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('album', 'rflp3gi');
+    try {
+      const res = await fetch("https://api.imgur.com/3/image", {
+        method: 'POST',
+        body: formData, 
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': 'Client-ID 8d3654ae5b58a3f'
+
+        }
+      });
+      const data = await res.json();
+      console.log(data); 
+    } catch (error) {
+      console.log(error);
+    }
   }
-    , [data]);
+
+  useEffect(() => {
+    console.log(selectData);
+  }
+    , [selectData]);
   return (
     <div>
       <div className=" flex h-screen w-full justify-center items-center">
         <div className=" w-full max-w-[30rem] p-3 mx-auto">
           <div className=" flex w-full flex-col gap-3 items-center">
             <div className="w-full h-40 rounded-md overflow-hidden relative">
-              {!isImage ? <Image src={image} layout="fill" objectFit="cover" /> : <video className="w-full h-full object-cover" src={image} muted controls autoPlay></video>}
+              {!isImage ? <Image src={image} layout="fill" objectFit="cover" alt='image' /> : <video className="w-full h-full object-cover" src={image} muted controls autoPlay></video>}
             </div>
-            <select className=" w-full border-2 border-gray-300 p-2 rounded-md">
+            <select onChange={(e) =>{setSelectData(e.target.value)}} className=" w-full border-2 border-gray-300 p-2 rounded-md">
               {data.map((item, index) => (
-                <option key={index}>{item}</option>
+                <option key={index} value={item}>{item}</option>
               ))}
             </select>
             <div className=" flex flex-col gap-3 border shadow-md p-3 w-full rounded-lg">
@@ -53,9 +76,7 @@ export default function Home() {
                 <input onChange={ChangeImage} accept="image/*,video/mp4" className="opacity-0 cursor-pointer absolute top-0 left-0 w-full h-full" type="file" id="fileInput" name="fileInput" required />
               </div>
             </div>
-            <Link href='/upload'>
-              <button className='bg-violet-500 active:scale-90 animate-heartBeat duration-150 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded'>Upload</button>
-            </Link>
+              <button onClick={uploadImage} className='bg-violet-500 active:scale-90 animate-heartBeat duration-150 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded'>Upload</button>
           </div>
         </div>
       </div>
