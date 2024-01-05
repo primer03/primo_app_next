@@ -25,10 +25,20 @@ module.exports = {
           '50%':{transform:'rotate(10deg)'},
           '100%':{transform:'rotate(-10deg)'},
         },
+        'slideInRight':{
+          '0%':{transform:'translateX(100%)'},
+          '100%':{transform:'translateX(0)'},
+        },
+        'slideInDown':{
+          '0%':{transform:'translateY(-100%)'},
+          '100%':{transform:'translateY(0)'},
+        }
       },
       animation:{
         'heartBeat':'heartBeat 1s ease-in-out',
         'SequenceLeftRight':'SequenceLeftRight 1s ease-in-out infinite',
+        'slideInRight':'slideInRight 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
+        'slideInDown':'slideInDown 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards',
       }
     },
   },
