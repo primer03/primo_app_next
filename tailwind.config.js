@@ -19,10 +19,16 @@ module.exports = {
           '28%':{transform:'scale(1)'},
           '42%':{transform:'scale(1.3)'},
           '70%':{transform:'scale(1)'},
-        }
+        },
+        'SequenceLeftRight':{
+          '0%':{transform:'rotate(-10deg)'},
+          '50%':{transform:'rotate(10deg)'},
+          '100%':{transform:'rotate(-10deg)'},
+        },
       },
       animation:{
-        'heartBeat':'heartBeat 1s ease-in-out'
+        'heartBeat':'heartBeat 1s ease-in-out',
+        'SequenceLeftRight':'SequenceLeftRight 1s ease-in-out infinite',
       }
     },
   },
