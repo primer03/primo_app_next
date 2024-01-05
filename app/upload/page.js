@@ -78,9 +78,9 @@ export default function Home() {
       );
       const data = await res.json();
       console.log(data);
-      setWidthHeight([data.width, data.height]);
-      setPublicId(data.public_id);
-      setIsUpload(true);
+      // setWidthHeight([data.width, data.height]);
+      // setPublicId(data.public_id);
+      // setIsUpload(true);
     } catch (error) {
       console.log(error);
     }
@@ -95,8 +95,10 @@ export default function Home() {
       <div className=" flex h-screen w-full justify-center items-center">
         <div className=" w-full max-w-[30rem] p-3 mx-auto">
           <div className=" flex w-full flex-col gap-3 items-center">
-            <div className={`${Blockwidth} h-56 rounded-md overflow-hidden relative`}>
-              {!isImage ? <Image src={image} layout="fill" alt='image' objectFit={imagObj} /> : <video src={image} className={`w-full h-full object-${imagObj}`} controls autoPlay loop />}
+            <div className="w-full border border-dashed flex justify-center">
+              <div className={`${Blockwidth} h-56 rounded-md overflow-hidden relative`}>
+                {!isImage ? <Image src={image} layout="fill" alt='image' objectFit={imagObj} /> : <video src={image} className={`w-full h-full object-${imagObj}`} controls autoPlay loop />}
+              </div>
             </div>
             <select onChange={(e) => { setSelectData(e.target.value) }} className=" w-full border-2 border-violet-600 active:border-violet-500 focus:border-violet-500 p-2 rounded-md">
               {data.map((item, index) => (
@@ -107,7 +109,7 @@ export default function Home() {
               <p className=" font-bold text-2xl">Upload Image</p>
               <div className="border-dashed overflow-hidden border-[2px] cursor-pointer rounded-lg relative border-gray-400 p-3 bg-gray-100 w-full flex flex-col items-center gap-3">
                 <p className="text-4xl text-gray-500"> <FontAwesomeIcon icon={faCloudArrowUp} /></p>
-                <p className="text-lg text-gray-700"> Drop File here</p>
+                {/* <p className="text-lg text-gray-700"> Drop File here</p> */}
                 <p className="text-lg text-gray-400 text-center">Supported format: PNG JPG GIF MP4</p>
                 <p className="text-lg text-gray-400 font-bold">OR</p>
                 <p className="text-lg text-indigo-600 font-semibold">Browse files</p>
