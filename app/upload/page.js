@@ -32,6 +32,7 @@ export default function Home() {
     try {
       var myHeaders = new Headers();
       myHeaders.append("Authorization", "Client-ID 9c72d61850f2a4c");
+      myHeaders.append("Content-Type", "multipart/form-data");
 
       var formdata = new FormData();
       formdata.append("image", file);
