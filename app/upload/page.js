@@ -11,15 +11,15 @@ const FontAwesomeIcon = dynamic(() =>
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 export default function Home() {
   const [data, setData] = useState(Array.from({ length: 27 }, (_, i) => `รุ่น ${i + 1}`));
-  let [image, setImage] = useState("https://i.imgur.com/UTAtyis.jpg");
+  let [image, setImage] = useState("https://i.imgur.com/euHKMYG.png");
   let [isImage, setIsImage] = useState(false);
   let [selectData, setSelectData] = useState(data[0]);
   let [file, setFile] = useState(null);
   let [isUpload, setIsUpload] = useState(false);
   let [publicId, setPublicId] = useState('');
   let [widthHeight, setWidthHeight] = useState({ width: 0, height: 0 });
-  let [Blockwidth, setBlockwidth] = useState('w-48');
-  let [imagObj, setImagObj] = useState('contain');
+  let [Blockwidth, setBlockwidth] = useState('w-full');
+  let [imagObj, setImagObj] = useState('cover');
   function ChangeImage(e) {
     if (e.target.files[0] != undefined) {
       const file = e.target.files[0];
