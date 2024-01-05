@@ -128,11 +128,11 @@ export default function Home() {
               ))}
             </motion.select>
 
-            <div className=" flex flex-col gap-3 border shadow-md p-3 w-full rounded-lg">
-              <p className=" font-bold text-2xl">Upload Image</p>
+            <div className="flex flex-col gap-3 border shadow-md p-3 w-full rounded-lg">
+              <p className="font-bold text-2xl">Upload Image</p>
               <motion.div
                 className="border-dashed overflow-hidden border-[2px] cursor-pointer rounded-lg relative border-gray-400 p-3 bg-gray-100 w-full flex flex-col items-center gap-3"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: '#F3F4F6', color: 'indigo' }}
                 whileTap={{ scale: 0.95 }}
               >
                 <p className="text-4xl text-gray-500"> <FontAwesomeIcon icon={faCloudArrowUp} /></p>
