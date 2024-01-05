@@ -3,7 +3,7 @@ import Image from 'next/image';
 import BarChart from '@/components/chartData';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   // Define your animation variants
@@ -55,10 +55,12 @@ export default function Home() {
 
         <Link href='/upload'>
           <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            variants={buttonVariants}
-            className='bg-violet-500 active:scale-90 duration-150 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded'
+            whileHover={{ scale: 1.05, textShadow: "0px 0px 8px rgb(255,255,255)", transition: { duration: 0.3 } }}
+            whileTap={{ scale: 0.95, backgroundColor: "#7e22ce" }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1, transition: { delay: 1 } }}
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            className='bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded shadow-lg transform transition-all duration-150 ease-in-out'
           >
             Let's go
           </motion.button>
