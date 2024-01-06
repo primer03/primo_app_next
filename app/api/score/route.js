@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
     const score = new ScoreModel();
     await score.initClient();
-    const scores = await score.createScoreTable();
+    // const scores = await score.createScoreTable();
     // await score.dropTable();
+    const scores = await score.getScore();
     return NextResponse.json(scores);
 }
 
