@@ -24,7 +24,7 @@ const BarChart = React.memo((props) => {
       if (res.ok) {
         const data = await res.json();
         setScoreData(data);
-        console.log(data);
+
       } else {
         throw new Error('Failed to fetch');
       }
@@ -40,7 +40,6 @@ const BarChart = React.memo((props) => {
     }
 
     if (scoreData.length > 0 && !isDataLoaded) {
-      console.log('scoreData:', scoreData);
       let sortScoreID = scoreData.sort((a, b) => a.id - b.id);
       setChartData({
         labels: Array.from({ length: 27 }, (_, i) => `รุ่น ${i + 1}`),

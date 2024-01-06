@@ -54,7 +54,7 @@ export default function Success() {
     async function getpublicdata() {
         const res = await fetch('/api/message/' + encodeURIComponent(public_id));
         const json = await res.json();
-        console.log(json);
+
         if (json.status == "success") {
             setGeneration(json.data.generation);
 
@@ -77,7 +77,7 @@ export default function Success() {
 
     async function updateScore(generation, score) {
         try {
-            console.log(generation, score);
+
             const formData = new FormData();
             formData.append("id", generation);
             formData.append("score", score);
@@ -87,7 +87,6 @@ export default function Success() {
             });
             if (res.ok) {
                 const data = await res.json();
-                console.log(data);
             }
         } catch (error) {
             console.log(error);
