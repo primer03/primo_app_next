@@ -148,7 +148,7 @@ export default function Home() {
             <div className=" flex w-full flex-col gap-3 items-center">
               <motion.div className="w-full border border-dashed flex justify-center" layout>
                 <motion.div className={`${Blockwidth} h-56 rounded-md overflow-hidden relative`} layout>
-                  {!isImage ? <Image src={image} layout="fill" alt='image' objectFit={imagObj} /> : <video src={image} className={`w-full h-full object-${imagObj}`} controls autoPlay loop />}
+                  {!isImage ? <Image src={image} layout="fill" alt='image' objectFit={imagObj} /> : <video src={image} className={`w-full h-full object-${imagObj}`} controls autoPlay loop muted />}
                 </motion.div>
               </motion.div>
 
