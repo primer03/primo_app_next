@@ -4,6 +4,7 @@ import BarChart from '@/components/chartData';
 import { useState, useEffect,useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Progressbar from '@/components/Progressbar';
 import Modal from '@/components/Modal';
 export default function Home() {
   const calledOnce = useRef(false);
@@ -58,6 +59,7 @@ export default function Home() {
       >
 
         <div className='mt-3 flex flex-col w-full p-2 justify-center items-center gap-3'>
+         
           <motion.p
             className='text-2xl font-bold'
             initial={{ opacity: 0 }}
@@ -73,7 +75,7 @@ export default function Home() {
           >
             จำนวนรูปภาพและวิดีโอทั้งหมด 500 รูป/วิดิโอ
           </motion.h5>
-
+          <Progressbar />
           <div className={`w-full ${scoreData.length > 0 ? '': 'flex justify-center'} max-w-[300rem] border-2 p-3 h-[17rem]`}>
             {scoreData.length > 0 ? <BarChart scoreData={scoreData} /> : <span className="loading loading-ring loading-lg"></span>}
           </div>
