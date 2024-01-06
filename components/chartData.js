@@ -60,7 +60,7 @@ const BarChart = React.memo((props) => {
           borderWidth: 2
         }]
       });
-      setDataLoaded(true);
+     
       setChartOptions({
         maintainAspectRatio: false,
         responsive: true,
@@ -80,7 +80,7 @@ const BarChart = React.memo((props) => {
         }
       });
 
-      
+      setDataLoaded(true);
     }
   }, [scoreData]); // Depend only on scoreData
 
