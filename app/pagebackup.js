@@ -1,14 +1,13 @@
 'use client';
 import Image from 'next/image';
 import BarChart from '@/components/chartData';
-import { useState, useEffect,useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Modal from '@/components/Modal';
 export default function Home() {
-  const calledOnce = useRef(false);
+  // Define your animation variants
   const [show, setShow] = useState('');
-  const [scoreData, setScoreData] = useState([]);
   const containerVariants = {
     hidden: { opacity: 0, x: -200 },
     visible: { opacity: 1, x: 0, transition: { duration: 1 } },
@@ -18,27 +17,6 @@ export default function Home() {
     hover: { scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)", transition: { duration: 0.3 } },
     tap: { scale: 0.9 },
   };
-
-  async function getScore() {
-    try {
-      const res = await fetch('/api/score');
-      if (res.ok) {
-        const data = await res.json();
-        setScoreData(data);
-      } else {
-        throw new Error('Failed to fetch');
-      }
-    } catch (error) {
-      console.error('Error fetching score data:', error);
-    }
-  }
-
-  useEffect(() => {
-    if (!calledOnce.current) {
-      getScore();
-      calledOnce.current = true;
-    }
-  });
 
   function openModal(e) {
     e.preventDefault()
@@ -74,8 +52,8 @@ export default function Home() {
             จำนวนรูปภาพและวิดีโอทั้งหมด 500 รูป/วิดิโอ
           </motion.h5>
 
-          <div className={`w-full ${scoreData.length > 0 ? '': 'flex justify-center'} max-w-[300rem] border-2 p-3`}>
-            {scoreData.length > 0 ? <BarChart scoreData={scoreData} /> : <span className="loading loading-ring loading-lg"></span>}
+          <div className=' w-full max-w-[300rem] border-2 p-3'>
+            <BarChart />
           </div>
 
           <motion.p

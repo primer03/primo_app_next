@@ -12,28 +12,39 @@ const Bar = dynamic(
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChart = React.memo((props) => {
-
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState({ datasets: [{
+    labels: Array.from({ length: 27 }, (_, i) => `รุ่น ${i + 1}`),
     datasets: [{
-      labels: Array.from({ length: 27 }, (_, i) => `รุ่น ${i + 1}`),
-      datasets: [{
-        label: '# of Votes',
-        data: [],
-        backgroundColor: 'rgba(138, 43, 226, 0.7)',
-        borderColor: 'rgba(138, 43, 226, 1)',
-        borderWidth: 2
-      }]
+      label: '# of Votes',
+      data: [],
+      backgroundColor: 'rgba(138, 43, 226, 0.7)',
+      borderColor: 'rgba(138, 43, 226, 1)',
+      borderWidth: 2
     }]
-  });
+  }] });
   const [chartOptions, setChartOptions] = useState({});
   const [isDataLoaded, setDataLoaded] = useState(false);
   const [scoreData, setScoreData] = useState([]);
   const calledOnce = useRef(false);
 
+  async function getScore() {
+    try {
+      const res = await fetch('/api/score');
+      if (res.ok) {
+        const data = await res.json();
+        setScoreData(data);
+
+      } else {
+        throw new Error('Failed to fetch');
+      }
+    } catch (error) {
+      console.error('Error fetching score data:', error);
+    }
+  }
+
   useEffect(() => {
     if (!calledOnce.current) {
-      // console.log(props.scoreData)
-      setScoreData(props.scoreData)
+      getScore();
       calledOnce.current = true;
     }
 
@@ -49,7 +60,7 @@ const BarChart = React.memo((props) => {
           borderWidth: 2
         }]
       });
-
+     
       setChartOptions({
         maintainAspectRatio: false,
         responsive: true,
