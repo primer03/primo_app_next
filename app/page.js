@@ -28,6 +28,7 @@ export default function Home() {
         const data = await res.json();
         // setCount(data);
         setCount(data.data.count);
+        console.log(data.data.count);
       } else {
         throw new Error('Failed to fetch');
       }
