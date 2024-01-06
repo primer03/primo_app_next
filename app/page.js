@@ -26,7 +26,6 @@ export default function Home() {
       const res = await fetch('/api/message/count');
       if (res.ok) {
         const data = await res.json();
-        // console.log(data.data.count)
         // setCount(data);
         setCount(data.data.count);
       } else {

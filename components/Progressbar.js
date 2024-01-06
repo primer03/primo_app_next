@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 
 export default function Progressbar(props) {
     const progress = ((parseInt(props.progress) / (props.progress*5))*100) || 0;
-    console.log(progress);
     return (
         <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
             <motion.div 
