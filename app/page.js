@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <div className=' w-full h-screen max-h-96 flex justify-start items-center overflow-auto '>
+    <div className=' w-full h-screen max-w-96 flex justify-start items-center overflow-auto '>
       <Modal show={show} close={() => setShow('')} />
       <motion.div
         initial="hidden"
