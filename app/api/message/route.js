@@ -5,6 +5,7 @@ export async function GET(request) {
     const messagex = new MessageModel();
     await messagex.initClient();
     await messagex.createMessageTable();
+    // await messagex.dropTable();
     return NextResponse.json({ message: "Message created successfullyx" });
 }
 

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import LoadingOverlay from '@/components/LoadingOverlay';
 const FontAwesomeIcon = dynamic(() =>
   import('@fortawesome/react-fontawesome').then((mod) => mod.FontAwesomeIcon),
@@ -62,57 +63,57 @@ export default function Home() {
     }
   }
   async function uploadImage() {
-    setLoading(true);
-    try {
-      // use Cloudinary API to upload image
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "my-upload");
-      let cloudinaryurl = file.type.includes("image") ? "image" : "video";
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/djncj31nj/${cloudinaryurl}/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        console.log(data);
-        // setLoading(false);
-        const formData2 = new FormData();
-        formData2.append("generation", selectData);
-        formData2.append("type", data.resource_type);
-        formData2.append("url", data.secure_url);
-        formData2.append("folder", data.folder);
-        formData2.append("public_id", data.public_id);
-        formData2.append("width", data.width);
-        formData2.append("height", data.height);
-        const res2 = await fetch('/api/message', {
-          method: "POST",
-          body: formData2,
-        });
-        if (res2.ok) {
-          const data2 = await res2.json();
-          console.log(data2);
-          if(data2.status == "success"){
-            setLoading(false);
-            setFile(null);
-            setImage("https://i.imgur.com/euHKMYG.png");
-            setIsImage(false);
-            setPublicId('');
-            setWidthHeight({ width: 0, height: 0 });
-            setBlockwidth('w-full');
-            setImagObj('cover');
-            setIsUpload(true);
+    if (file != undefined) {
+      setLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "my-upload");
+        let cloudinaryurl = file.type.includes("image") ? "image" : "video";
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/djncj31nj/${cloudinaryurl}/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data);
+          // setLoading(false);
+          const formData2 = new FormData();
+          formData2.append("generation", selectData);
+          formData2.append("type", data.resource_type);
+          formData2.append("url", data.secure_url);
+          formData2.append("folder", data.folder);
+          formData2.append("public_id", data.public_id);
+          formData2.append("width", data.width);
+          formData2.append("height", data.height);
+          const res2 = await fetch('/api/message', {
+            method: "POST",
+            body: formData2,
+          });
+          if (res2.ok) {
+            const data2 = await res2.json();
+            console.log(data2);
+            if (data2.status == "success") {
+              setLoading(false);
+              setFile(null);
+              setImage("https://i.imgur.com/euHKMYG.png");
+              setIsImage(false);
+              setPublicId('');
+              setWidthHeight({ width: 0, height: 0 });
+              setBlockwidth('w-full');
+              setImagObj('cover');
+              setIsUpload(true);
+              //ไปหน้า success
+              window.location.href = `/success?public_id=${encodeURIComponent(data.public_id)}`//ใช้ encodeURIComponent ในการเข้ารหัสข้อมูล
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
       }
-      // setWidthHeight([data.width, data.height]);
-      // setPublicId(data.public_id);
-      // setIsUpload(true);
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -165,7 +166,7 @@ export default function Home() {
                 <p className="font-bold text-2xl">Upload Image</p>
                 <motion.div
                   className="border-dashed overflow-hidden border-[2px] cursor-pointer rounded-lg relative border-gray-400 p-3 bg-gray-100 w-full flex flex-col items-center gap-3"
-                  whileHover={{ scale: 1.05, backgroundColor: '#F3F4F6'}}
+                  whileHover={{ scale: 1.05, backgroundColor: '#F3F4F6' }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <p className="text-4xl text-gray-500"> <FontAwesomeIcon icon={faCloudArrowUp} /></p>
