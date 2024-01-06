@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         <meta property="og:description" content={metadata.description} />
         <meta property="og:image" content={metadata.imageUrl} />
         <meta property="og:type" content="website" />
-        <link rel="icon" href='https://i.imgur.com/QtTnpkw.png' />
+        <link rel="icon" href='/favicon.ico' />
       </Head>
       <body className={inter.className}>{children}</body>
     </html>
