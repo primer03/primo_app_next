@@ -8,13 +8,13 @@ export default function Modal({ show, close, data }) {
     }
     return (
         <dialog id="my_modal_1" className={`modal ${show}`}>
-            <div className="modal-box p-3">
+            <div className="modal-box p-3 sm:p-5">
                 <h3 className="font-bold text-lg text-center">กติกา</h3>
                 <div className="">
                     <div className="modal-content flex justify-center items-center gap-2">
                         <div className={`w-2/4  ${(show != '') ? ' animate-slideInDown' : ''}`}>
-                            <p>เกณการให้คะแนน</p>
-                            <ul className={`list-disc flex justify-center flex-col gap-1 list-inside text-[15px]`}>
+                            <p className='text-[15px] sm:text-xl font-semibold'>เกณการให้คะแนน</p>
+                            <ul className={`list-disc flex justify-center flex-col gap-1 list-inside text-[15px] sm:text-xl`}>
                                 <li>รุ่นที่ 1 - 5 คูณ 3</li>
                                 <li>รุ่นที่ 6 - 10 คูณ 2</li>
                                 <li>รุ่นที่ 11 - ปัจุบัน คูณ 1</li>
@@ -22,8 +22,8 @@ export default function Modal({ show, close, data }) {
                                 <li>คลิป/VDO 2 คะแนน</li>
                             </ul>
                         </div>
-                        <div className='w-2/4'>
-                            <Image className={(show != '') ? (` animate-slideInRight`): ''} src='https://i.imgur.com/748Agbq.png' width={200} height={200} />
+                        <div className='w-2/4 flex justify-center'>
+                            <Image className={(show != '') ? (` animate-slideInRight`): ''} src='https://i.imgur.com/748Agbq.png' width={250} height={250} />
                         </div>
                     </div>
                     <div className=' flex justify-end'>
