@@ -4,9 +4,9 @@ import MessageModel from "@/lib/messageData";
 export async function GET(request) {
     const messagex = new MessageModel();
     await messagex.initClient();
-    await messagex.createMessageTable();
+    const messageData = await messagex.getMessages();
     // await messagex.dropTable();
-    return NextResponse.json({ message: "Message created successfullyx" });
+    return NextResponse.json({status: "success", message: "Message created successfully",data: messageData });
 }
 
 export async function POST(request) {

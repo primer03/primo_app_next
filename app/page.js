@@ -10,6 +10,7 @@ export default function Home() {
   const calledOnce = useRef(false);
   const [show, setShow] = useState('');
   const [scoreData, setScoreData] = useState([]);
+  const [count, setCount] = useState(0);
   const containerVariants = {
     hidden: { opacity: 0, x: -200 },
     visible: { opacity: 1, x: 0, transition: { duration: 1 } },
@@ -19,6 +20,22 @@ export default function Home() {
     hover: { scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)", transition: { duration: 0.3 } },
     tap: { scale: 0.9 },
   };
+
+  async function getCount() {
+    try {
+      const res = await fetch('/api/message/count');
+      if (res.ok) {
+        const data = await res.json();
+        // console.log(data.data.count)
+        // setCount(data);
+        setCount(data.data.count);
+      } else {
+        throw new Error('Failed to fetch');
+      }
+    } catch (error) {
+      console.error('Error fetching count data:', error);
+    }
+  }
 
   async function getScore() {
     try {
@@ -37,6 +54,7 @@ export default function Home() {
   useEffect(() => {
     if (!calledOnce.current) {
       getScore();
+      getCount();
       calledOnce.current = true;
     }
   });
@@ -73,9 +91,9 @@ export default function Home() {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { delay: 0.7 } }}
           >
-            จำนวนรูปภาพและวิดีโอทั้งหมด 500 รูป/วิดิโอ
+            จำนวนรูปภาพและวิดีโอทั้งหมด {count} รูป/วิดิโอ
           </motion.h5>
-          <Progressbar />
+          {count > 0 ? <Progressbar progress={count} /> :  <Progressbar progress={0} />}
           <div className={`w-full ${scoreData.length > 0 ? '': 'flex justify-center'} max-w-[300rem] border-2 p-3 h-[17rem]`}>
             {scoreData.length > 0 ? <BarChart scoreData={scoreData} /> : <span className="loading loading-ring loading-lg"></span>}
           </div>
