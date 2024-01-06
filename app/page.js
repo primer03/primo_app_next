@@ -26,6 +26,8 @@ export default function Home() {
   return (
     <div className=' w-full h-screen flex justify-start items-center overflow-auto '>
       <Modal show={show} close={() => setShow('')} />
+      <div className=" w-full max-w-[40rem] p-3 mx-auto">
+            <div className=" flex w-full flex-col gap-3 items-center">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -81,6 +83,8 @@ export default function Home() {
           <p onClick={openModal} className='text-xl text-gray-600 font-bold'>กติกา</p>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 }
