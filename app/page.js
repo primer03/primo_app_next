@@ -74,7 +74,7 @@ export default function Home() {
             จำนวนรูปภาพและวิดีโอทั้งหมด 500 รูป/วิดิโอ
           </motion.h5>
 
-          <div className={`w-full ${scoreData.length > 0 ? '': 'flex justify-center'} max-w-[300rem] border-2 p-3 h-60`}>
+          <div className={`w-full ${scoreData.length > 0 ? '': 'flex justify-center'} max-w-[300rem] border-2 p-3 h-[17rem]`}>
             {scoreData.length > 0 ? <BarChart scoreData={scoreData} /> : <span className="loading loading-ring loading-lg"></span>}
           </div>
 
