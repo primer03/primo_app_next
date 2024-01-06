@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="th"> {/* เปลี่ยนภาษาเป็น 'th' สำหรับภาษาไทย */}
       <Head>
         <title>{metadata.title}</title>
         <meta property="og:title" content={metadata.title} />
@@ -22,7 +22,10 @@ export default function RootLayout({ children }) {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="YourSiteName" /> {/* เพิ่มชื่อเว็บไซต์ */}
+        <meta property="og:locale" content="th_TH" /> {/* เพิ่ม locale สำหรับภาษาไทย */}
         <link rel="icon" href='/favicon.ico' />
+        {/* เพิ่มโค้ด CSS หรือโมดูลสไตล์ที่นี่ */}
       </Head>
       <body className={inter.className}>{children}</body>
     </html>
