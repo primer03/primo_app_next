@@ -23,12 +23,12 @@ export default function Home() {
 
   async function getCount() {
     try {
-      const res = await fetch('/api/message/count');
+      const res = await fetch('/api/message/');
       if (res.ok) {
         const data = await res.json();
         // setCount(data);
-        setCount(data.data);
-        console.log(data.data);
+        setCount(data.data.length);
+        console.log(data.data.length);
       } else {
         throw new Error('Failed to fetch');
       }
