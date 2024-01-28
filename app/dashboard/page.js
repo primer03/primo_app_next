@@ -11,13 +11,14 @@ import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { faVideo, faPhotoFilm, faStar, faTv } from "@fortawesome/free-solid-svg-icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import CryptoJS from "crypto-js";
+import Link from "next/link";
 export default function page() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const calledOnce = useRef(false);
     const [scoreData, setScoreData] = useState([]);
     const [countData, setCountData] = useState([]);
     const inputRefs = useRef([]);
-    const [setOpenModal, setModal] = useState("modal-open");
+    const [setOpenModal, setModal] = useState("");
     const [Dashboard, setDashboard] = useState(false);
     inputRefs.current = Array(4).fill().map((_, i) => inputRefs.current[i] ?? createRef());
 
@@ -67,7 +68,13 @@ export default function page() {
             if (strotp === '2303') {
                 setModal("");
                 setDashboard(true);
+            } else {
+                setModal("modal-open");
+                setDashboard(false);
             }
+        } else {
+            setModal("modal-open");
+            setDashboard(false);
         }
     }
 
@@ -81,20 +88,15 @@ export default function page() {
             if (index < 3 && inputRefs.current[index].current.value.length === 1) {
                 inputRefs.current[index + 1].current.focus();
             }
-
-            // if (index === 3 && inputRefs.current[index].current.value.length === 1) {
-            //     var strotp = inputRefs.current.map((item) => item.current.value).join('');
-            //     if (strotp === '2303') {
-            //         setModal("");
-            //         setDashboard(true);
-            //         localStorage.setItem("otp", encryptData(strotp));
-            //     }
-            // }
             var strotp = inputRefs.current.map((item) => item.current.value).join('');
-            if (strotp === '2303') {
-                setModal("");
-                setDashboard(true);
-                localStorage.setItem("otp", encryptData(strotp));
+            if (strotp.length === 4 && inputRefs.current[index].current.value.length === 1) {
+                if (strotp === '2303') {
+                    setModal("");
+                    setDashboard(true);
+                    localStorage.setItem("otp", encryptData(strotp));
+                } else {
+                    alert("รหัสผ่านไม่ถูกต้อง");
+                }
             }
             // Move to previous input on delete/backspace
             if (event.key === 'Backspace' && index > 0 && inputRefs.current[index].current.value.length === 0) {
@@ -198,13 +200,15 @@ export default function page() {
                                         <p className="text-2xl my-3 font-bold text-black dark:text-white">ช่องส่งข้อความ</p>
                                         <div className=" w-full h-[30rem] overflow-auto scorebox">
                                             <div className=" flex flex-col gap-3">
-                                                <div className="rounded-sm font-bold flex items-center justify-between gap-3 border animate-zoomIn border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                                    <div className=" flex gap-3">
-                                                        <FontAwesomeIcon icon={faTv} className="text-blue-700 text-2xl" />
-                                                        <p>ช่องส่งข้อความที่ 1</p>
+                                                <Link href="/chanel/1" target="_blank">
+                                                    <div className="rounded-sm font-bold flex items-center justify-between gap-3 border animate-zoomIn border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
+                                                        <div className=" flex gap-3">
+                                                            <FontAwesomeIcon icon={faTv} className="text-blue-700 text-2xl" />
+                                                            <p>ช่องส่งข้อความที่ 1</p>
+                                                        </div>
+                                                        <div className=" w-5 h-5 rounded-full bg-green-500"></div>
                                                     </div>
-                                                    <div className=" w-5 h-5 rounded-full bg-green-500"></div>
-                                                </div>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
