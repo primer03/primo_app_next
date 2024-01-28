@@ -98,7 +98,10 @@ export default function page() {
                     setDashboard(true);
                     localStorage.setItem("otp", encryptData(strotp));
                 } else {
-                    alert("รหัสผ่านไม่ถูกต้อง");
+                   setTimeout(() => {
+                    inputRefs.current.map((item) => item.current.value = '');
+                    inputRefs.current[0].current.focus();
+                   }, 1000);
                 }
             }
             // Move to previous input on delete/backspace
