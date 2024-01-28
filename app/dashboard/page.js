@@ -10,6 +10,7 @@ const FontAwesomeIcon = dynamic(() =>
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { faVideo, faPhotoFilm, faStar, faTv } from "@fortawesome/free-solid-svg-icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import CryptoJS from "crypto-js";
 export default function page() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const calledOnce = useRef(false);
@@ -39,13 +40,34 @@ export default function page() {
             const res = await fetch('/api/message/count');
             if (res.ok) {
                 const data = await res.json();
-                console.log(data);
                 setCountData(data);
             } else {
                 throw new Error('Failed to fetch');
             }
         } catch (error) {
             console.error('Error fetching countimages data:', error);
+        }
+    }
+
+    function encryptData(data) {
+        const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'primohee').toString();
+        return ciphertext;
+    }
+
+    function decryptData(ciphertext) {
+        const bytes = CryptoJS.AES.decrypt(ciphertext, 'primohee');
+        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return decryptedData;
+    }
+
+    async function LoadVerify() {
+        const encryptedOtp = localStorage.getItem("otp");
+        if (encryptedOtp) {
+            var strotp = decryptData(encryptedOtp);
+            if (strotp === '2303') {
+                setModal("");
+                setDashboard(true);
+            }
         }
     }
 
@@ -58,15 +80,14 @@ export default function page() {
             // Move to next input on input
             if (index < 3 && inputRefs.current[index].current.value.length === 1) {
                 inputRefs.current[index + 1].current.focus();
-                console.log(inputRefs.current[index].current.value);
             }
 
             if (index === 3 && inputRefs.current[index].current.value.length === 1) {
                 var strotp = inputRefs.current.map((item) => item.current.value).join('');
-                console.log(strotp);
                 if (strotp === '2303') {
                     setModal("");
                     setDashboard(true);
+                    localStorage.setItem("otp", encryptData(strotp));
                 }
             }
             // Move to previous input on delete/backspace
@@ -83,6 +104,7 @@ export default function page() {
 
     useEffect(() => {
         if (!calledOnce.current) {
+            LoadVerify();
             getScore();
             getCount();
             calledOnce.current = true;
