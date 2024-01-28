@@ -82,13 +82,19 @@ export default function page() {
                 inputRefs.current[index + 1].current.focus();
             }
 
-            if (index === 3 && inputRefs.current[index].current.value.length === 1) {
-                var strotp = inputRefs.current.map((item) => item.current.value).join('');
-                if (strotp === '2303') {
-                    setModal("");
-                    setDashboard(true);
-                    localStorage.setItem("otp", encryptData(strotp));
-                }
+            // if (index === 3 && inputRefs.current[index].current.value.length === 1) {
+            //     var strotp = inputRefs.current.map((item) => item.current.value).join('');
+            //     if (strotp === '2303') {
+            //         setModal("");
+            //         setDashboard(true);
+            //         localStorage.setItem("otp", encryptData(strotp));
+            //     }
+            // }
+            var strotp = inputRefs.current.map((item) => item.current.value).join('');
+            if (strotp === '2303') {
+                setModal("");
+                setDashboard(true);
+                localStorage.setItem("otp", encryptData(strotp));
             }
             // Move to previous input on delete/backspace
             if (event.key === 'Backspace' && index > 0 && inputRefs.current[index].current.value.length === 0) {
