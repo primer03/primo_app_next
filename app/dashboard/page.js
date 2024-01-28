@@ -23,6 +23,7 @@ export default function page() {
     const [Dashboard, setDashboard] = useState(false);
     const socketRef = useRef(null);
     const [chanels, setChanels] = useState([]);
+    const [borderOtp, setBorderOtp] = useState("border-gray-400");
     inputRefs.current = Array(4).fill().map((_, i) => inputRefs.current[i] ?? createRef());
 
     async function getScore() {
@@ -98,9 +99,11 @@ export default function page() {
                     setDashboard(true);
                     localStorage.setItem("otp", encryptData(strotp));
                 } else {
+                    setBorderOtp("border-red-500");
                    setTimeout(() => {
                     inputRefs.current.map((item) => item.current.value = '');
                     inputRefs.current[0].current.focus();
+                    setBorderOtp("border-gray-400");
                    }, 1000);
                 }
             }
@@ -149,7 +152,7 @@ export default function page() {
                             {Array.from(Array(4).keys()).map((item, index) => (
                                 <input
                                     ref={inputRefs.current[index]}
-                                    className="border border-gray-400 rounded-md p-1.5 h-20 w-full text-center text-3xl caret-transparent"
+                                    className={`border ${borderOtp} rounded-md p-1.5 h-20 w-full text-center text-3xl caret-transparent`}
                                     type="text"
                                     maxLength="1"
                                     onChange={(e) => handleInputChange(index, e)}
