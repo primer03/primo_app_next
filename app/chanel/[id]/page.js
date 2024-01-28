@@ -56,7 +56,7 @@ export default function Home({ params }) {
         router.push('/');
         return;
       }
-      socketRef.current = io("http://localhost:8000", { transports: ['websocket'] });
+      socketRef.current = io("https://primo-server.onrender.com/", { transports: ['websocket'] });
       socketRef.current.on("connect", () => {
         console.log(`ID: ${socketRef.current.id}`);
         socketRef.current.emit('send chanel', params.id);

@@ -12,6 +12,7 @@ import { faVideo, faPhotoFilm, faStar, faTv } from "@fortawesome/free-solid-svg-
 import LoadingOverlay from "@/components/LoadingOverlay";
 import CryptoJS from "crypto-js";
 import Link from "next/link";
+import { io } from 'socket.io-client';
 export default function page() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const calledOnce = useRef(false);
@@ -20,6 +21,8 @@ export default function page() {
     const inputRefs = useRef([]);
     const [setOpenModal, setModal] = useState("");
     const [Dashboard, setDashboard] = useState(false);
+    const socketRef = useRef(null);
+    const [chanels, setChanels] = useState([]);
     inputRefs.current = Array(4).fill().map((_, i) => inputRefs.current[i] ?? createRef());
 
     async function getScore() {
@@ -115,6 +118,19 @@ export default function page() {
             LoadVerify();
             getScore();
             getCount();
+            socketRef.current = io("https://primo-server.onrender.com/", { transports: ['websocket'] });
+            socketRef.current.on("connect", () => {
+                socketRef.current.emit('send message', 'Welcome to Dashboard.')
+            });
+            socketRef.current.on("getChanel", (data) => {
+                setChanels(data);
+            });
+            socketRef.current.on("chanel", (data) => {
+                setChanels(data);
+            });
+            socketRef.current.on("chanelDis", (data) => {
+                setChanels(data);
+            });
             calledOnce.current = true;
         }
     });
@@ -200,15 +216,17 @@ export default function page() {
                                         <p className="text-2xl my-3 font-bold text-black dark:text-white">ช่องส่งข้อความ</p>
                                         <div className=" w-full h-[30rem] overflow-auto scorebox">
                                             <div className=" flex flex-col gap-3">
-                                                <Link href="/chanel/1" target="_blank">
-                                                    <div className="rounded-sm font-bold flex items-center justify-between gap-3 border animate-zoomIn border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                                        <div className=" flex gap-3">
-                                                            <FontAwesomeIcon icon={faTv} className="text-blue-700 text-2xl" />
-                                                            <p>ช่องส่งข้อความที่ 1</p>
-                                                        </div>
-                                                        <div className=" w-5 h-5 rounded-full bg-green-500"></div>
-                                                    </div>
-                                                </Link>
+                                                {chanels.map((chanel, index) => (
+                                                   <Link href={`/chanel/${index + 1}`} target="_blank" key={index}>
+                                                   <div className="rounded-sm font-bold flex items-center justify-between gap-3 border animate-zoomIn border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
+                                                       <div className=" flex gap-3">
+                                                           <FontAwesomeIcon icon={faTv} className="text-blue-700 text-2xl" />
+                                                           <p> {index + 1}</p>
+                                                       </div>
+                                                       <div className={`w-5 h-5 rounded-full ${chanel.connect ? 'bg-green-500' : 'bg-red-600'}`}></div>
+                                                   </div>
+                                               </Link>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
