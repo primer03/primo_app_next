@@ -52,9 +52,9 @@ export default function Success() {
     };
 
     async function getpublicdata() {
-        const res = await fetch('/api/message/' + encodeURIComponent(public_id));
+        const res = await fetch('https://primo-test.onrender.com/api/messages/' + encodeURIComponent(public_id));
         const json = await res.json();
-
+        console.log(json);
         if (json.status == "success") {
             setGeneration(json.data.generation);
 
@@ -79,14 +79,15 @@ export default function Success() {
         try {
 
             const formData = new FormData();
-            formData.append("id", generation);
+            formData.append("name", generation);
             formData.append("score", score);
-            const res = await fetch('/api/score', {
-                method: "POST",
+            const res = await fetch('https://primo-test.onrender.com/api/score/', {
+                method: "PUT",
                 body: formData,
             });
             if (res.ok) {
                 const data = await res.json();
+                console.log(data);
             }
         } catch (error) {
             console.log(error);

@@ -23,23 +23,34 @@ export default function Home() {
 
   async function getCount() {
     try {
-      const res = await fetch('/api/message/');
+      const res = await fetch('https://primo-test.onrender.com/api/messages');
       if (res.ok) {
         const data = await res.json();
-        // setCount(data);
-        setCount(data.data.length);
-        console.log(data.data.length);
+        console.log(data); // Log the received data for debugging
+        console.log("TEST DATA"); // Confirming this part of the code was reached
+  
+        // Assuming you want to update some state with the count of data
+        // Ensure you uncomment the appropriate line for updating state
+        // For example, if 'data' is an array:
+        setCount(data.length);
+        // Or if 'data' contains a 'data' field that is an array:
+        setCount(data.length);
+  
       } else {
-        throw new Error('Failed to fetch');
+        // Handle HTTP errors (e.g., 404, 500)
+        throw new Error(`Failed to fetch, status: ${res.status}`);
       }
     } catch (error) {
       console.error('Error fetching count data:', error);
+      // Optionally, update the state to reflect the error condition
+      // setCount(0); // Or another appropriate action
+      console.log("ERROR");
     }
-  }
+  }  
 
   async function getScore() {
     try {
-      const res = await fetch('/api/score');
+      const res = await fetch('https://primo-test.onrender.com/api/score');
       if (res.ok) {
         const data = await res.json();
         setScoreData(data);

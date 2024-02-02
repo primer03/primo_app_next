@@ -63,57 +63,62 @@ export default function Home() {
     }
   }
   async function uploadImage() {
-    if (file != undefined) {
-      setLoading(true);
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "my-upload");
-        let cloudinaryurl = file.type.includes("image") ? "image" : "video";
-        const res = await fetch(
-          `https://api.cloudinary.com/v1_1/djncj31nj/${cloudinaryurl}/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        if (res.ok) {
-          const data = await res.json();
-          console.log(data);
-          // setLoading(false);
-          const formData2 = new FormData();
-          formData2.append("generation", selectData);
-          formData2.append("type", data.resource_type);
-          formData2.append("url", data.secure_url);
-          formData2.append("folder", data.folder);
-          formData2.append("public_id", data.public_id);
-          formData2.append("width", data.width);
-          formData2.append("height", data.height);
-          const res2 = await fetch('/api/message', {
-            method: "POST",
-            body: formData2,
-          });
-          if (res2.ok) {
-            const data2 = await res2.json();
-            console.log(data2);
-            if (data2.status == "success") {
-              setLoading(false);
-              setFile(null);
-              setImage("https://i.imgur.com/euHKMYG.png");
-              setIsImage(false);
-              setPublicId('');
-              setWidthHeight({ width: 0, height: 0 });
-              setBlockwidth('w-full');
-              setImagObj('cover');
-              setIsUpload(true);
-              //ไปหน้า success
-              window.location.href = `/success?public_id=${encodeURIComponent(data.public_id)}`//ใช้ encodeURIComponent ในการเข้ารหัสข้อมูล
+
+    if(data.includes(selectData)){
+      if (file != undefined) {
+        setLoading(true);
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "my-upload");
+          let cloudinaryurl = file.type.includes("image") ? "image" : "video";
+          const res = await fetch(
+            `https://api.cloudinary.com/v1_1/djncj31nj/${cloudinaryurl}/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+            // setLoading(false);
+            const formData2 = new FormData();
+            formData2.append("generation", selectData);
+            formData2.append("type", data.resource_type);
+            formData2.append("url", data.secure_url);
+            formData2.append("folder", data.folder);
+            formData2.append("public_id", data.public_id);
+            formData2.append("width", data.width);
+            formData2.append("height", data.height);
+            const res2 = await fetch('https://primo-test.onrender.com/api/messages', {
+              method: "POST",
+              body: formData2,
+            });
+            if (res2.ok) {
+              const data2 = await res2.json();
+              console.log(data2);
+              if (data2.status == "success") {
+                setLoading(false);
+                setFile(null);
+                setImage("https://i.imgur.com/euHKMYG.png");
+                setIsImage(false);
+                setPublicId('');
+                setWidthHeight({ width: 0, height: 0 });
+                setBlockwidth('w-full');
+                setImagObj('cover');
+                setIsUpload(true);
+                //ไปหน้า success
+                window.location.href = `/success?public_id=${encodeURIComponent(data.public_id)}`//ใช้ encodeURIComponent ในการเข้ารหัสข้อมูล
+              }
             }
           }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
+    }else{
+      alert('กรุณาเลือกรุ่น');
     }
   }
 
