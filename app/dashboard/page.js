@@ -28,7 +28,7 @@ export default function page() {
 
     async function getScore() {
         try {
-            const res = await fetch('/api/score');
+            const res = await fetch('https://primo-test.onrender.com/api/score');
             if (res.ok) {
                 const data = await res.json();
                 setScoreData(data);
@@ -42,10 +42,11 @@ export default function page() {
 
     async function getCount() {
         try {
-            const res = await fetch('/api/message/count');
+            const res = await fetch('https://primo-test.onrender.com/api/messages/count');
             if (res.ok) {
+
                 const data = await res.json();
-                setCountData(data);
+                setCountData(data.data);
             } else {
                 throw new Error('Failed to fetch');
             }
