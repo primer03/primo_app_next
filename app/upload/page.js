@@ -69,7 +69,7 @@ export default function Home() {
         //check file size 50md
         console.log(file.size);
         if (file.size > 50000000) { //50mb
-          alert('ไฟล์มีขนาดใหญ่เกินไป');
+          alert('กรุณาเลือกไฟล์ที่มีขนาดไม่เกิน 50mb');
           return;
         }
         setLoading(true);
