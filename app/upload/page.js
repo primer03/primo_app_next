@@ -68,7 +68,7 @@ export default function Home() {
       if (file != undefined) {
         //check file size 50md
         console.log(file.size);
-        if (file.size > 50000000) { //5mb
+        if (file.size > 50000000) { //50mb
           alert('ไฟล์มีขนาดใหญ่เกินไป');
           return;
         }
