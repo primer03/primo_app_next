@@ -64,8 +64,14 @@ export default function Home() {
   }
   async function uploadImage() {
 
-    if(data.includes(selectData)){
+    if (data.includes(selectData)) {
       if (file != undefined) {
+        //check file size 50md
+        console.log(file.size);
+        if (file.size > 50000000) { //5mb
+          alert('ไฟล์มีขนาดใหญ่เกินไป');
+          return;
+        }
         setLoading(true);
         try {
           const formData = new FormData();
@@ -117,7 +123,7 @@ export default function Home() {
           console.log(error);
         }
       }
-    }else{
+    } else {
       alert('กรุณาเลือกรุ่น');
     }
   }
