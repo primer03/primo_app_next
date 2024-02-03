@@ -3,7 +3,7 @@
 const nextConfig = {
     reactStrictMode: true, // เปิดใช้งาน Strict Mode สำหรับ React
     images: {
-      domains: ['i.imgur.com'], // ระบุ domains ที่อนุญาตสำหรับรูปภาพ
+      domains: ['i.imgur.com','res.cloudinary.com'], // ระบุ domains ที่อนุญาตสำหรับรูปภาพ
     },
     publicRuntimeConfig: {
       // ใส่ URL ของเว็บไซต์ของคุณที่นี่

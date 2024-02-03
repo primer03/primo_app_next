@@ -125,7 +125,7 @@ export default function page() {
             LoadVerify();
             getScore();
             getCount();
-            socketRef.current = io("https://primo-server.onrender.com/", { transports: ['websocket'] });
+            socketRef.current = io("https://primo-server.onrender.com", { transports: ['websocket'] });
             socketRef.current.on("connect", () => {
                 socketRef.current.emit('send message', 'Welcome to Dashboard.')
             });

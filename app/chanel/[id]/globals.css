@@ -17,8 +17,8 @@ body {
 }
 
 .balloon {
-  height: 125px;
-  width: 105px;
+  height: 225px;
+  width: 205px;
   border-radius: 75% 75% 70% 70%;
   position: relative;
 }
@@ -31,7 +31,7 @@ body {
   background-color: #FDFD96;
   display: block;
   position: absolute;
-  top: 125px;
+  top: 225px;
   left: 0;
   right: 0;
   margin: auto;
@@ -43,7 +43,7 @@ body {
     display: block;
     position: absolute;
     color: inherit;
-    top: 120px;
+    top: 220px;
     left: 0;
     right: 0;
     margin: auto;
@@ -55,26 +55,3 @@ body {
   to {transform: translateY(-300vh);
   opacity: 0;}
 }
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */

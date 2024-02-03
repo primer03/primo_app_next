@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { end } from '@cloudinary/url-gen/qualifiers/textAlignment';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingOverlay from './LoadingOverlay';
+import { io } from 'socket.io-client';
 export default function Success() {
     const [inspirationalQuotes, setInspirationalQuotes] = useState([
         "ทางเดียวในการเรียนคณิตศาสตร์ก็คือ การฝึกทำโจทย์ — Paul Halmos",
@@ -45,6 +46,8 @@ export default function Success() {
     const calledOnce = useRef(false);
     const [isShow, setIsShow] = useState(false);
     const [isShowLoading, setIsShowLoading] = useState(true);
+    const socketRef = useRef(null);
+
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
@@ -107,6 +110,11 @@ export default function Success() {
     useEffect(() => {
         if (!calledOnce.current) {
             getpublicdata();
+            socketRef.current = io("https://primo-server.onrender.com", { transports: ['websocket'] });
+            socketRef.current.on('connect', () => {
+                console.log('connected');
+                socketRef.current.emit('send message', { public_id: public_id, chanel: Math.floor((Math.random() * (5 - 1) + 1)) });
+            });
             calledOnce.current = true;
         }
     }, []);
