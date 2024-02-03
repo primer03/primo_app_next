@@ -120,7 +120,7 @@ export default function Home({ params }) {
     <div id="balloon-container">
       {balloons.map((balloon) => (
         balloon.url != undefined ? <div key={balloon.id} className="balloon" style={balloon.style}>
-          {balloon.type == 'image' ? <Image src={balloon.url} width={300} height={300} className='rounded-full' alt=''  objectFit='cover' style={{ position: 'absolute', bottom: '0' }} /> : <video src={balloon.url} className='absolute bottom-0 rounded-md' width={200} height={200} autoPlay loop muted></video>}
+          {balloon.type == 'image' ? <Image src={balloon.url} width={300} height={300} className='rounded-md' alt=''  objectFit='cover' style={{ position: 'absolute', bottom: '0' }} /> : <video src={balloon.url} className='absolute bottom-0 rounded-md' width={200} height={200} autoPlay loop muted></video>}
         </div> : ''
       ))}
     </div>
